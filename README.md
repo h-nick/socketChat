@@ -1,9 +1,3 @@
-# Notas:
+# Socket Chat
 
-Este es un pequeño servidor de express listo para ejecutarse y servir la carpeta public en la web.
-
-Recuerden que deben de reconstruir los módulos de node con el comando
-
-```
-npm install
-```
+Basic Node.js-based socket chat powered by Express.js and Socket.IO for Udemy.
