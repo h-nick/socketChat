@@ -8,7 +8,7 @@ class Users {
 	// All functions asume uID and rID is always a valid one.
 	// Array.filter() returns undefined if nothing is ever found.
 
-	addUserToChar(uID, uName) {
+	addUserToChat(uID, uName) {
 		let newUser = {
 			uID,
 			uName
