@@ -24,8 +24,7 @@ socket.on('disconnect', function() {
 
 });
 
-// Enviar información
-socket.emit('enviarMensaje', {
+socket.emit('createMessage', {
     usuario: 'Fernando',
     mensaje: 'Hola Mundo'
 }, function(resp) {
