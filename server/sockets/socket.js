@@ -14,6 +14,15 @@ io.on('connection', (client) => {
 		});
 
 		callbackFn(users.addUserToChat(client.id, signalParam.userName));
+		client.broadcast.emit('listConnectedUsers', users.getAllUsersInChat());
+	});
 
+	client.on('disconnect', () => {
+		let disconnectedUser = users.deleteUser(client.id);
+		client.broadcast.emit('createMessage', {
+			user: 'Server',
+			msg: `${disconnectedUser.uName} has disconnected from the chat.`
+		});
+		client.broadcast.emit('listConnectedUsers', users.getAllUsersInChat());
 	});
 });

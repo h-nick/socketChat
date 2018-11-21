@@ -24,7 +24,6 @@ socket.on('disconnect', function() {
 
 });
 
-
 // Enviar información
 socket.emit('enviarMensaje', {
     usuario: 'Fernando',
@@ -33,9 +32,10 @@ socket.emit('enviarMensaje', {
     console.log('respuesta server: ', resp);
 });
 
-// Escuchar información
-socket.on('enviarMensaje', function(mensaje) {
+socket.on('createMessage', function(mensaje) {
+    console.log('BROADCAST:', mensaje);
+});
 
-    console.log('Servidor:', mensaje);
-
+socket.on('listConnectedUsers', function(signal) {
+	console.log('BROADCAST CONNECTED USERS:', signal);
 });

@@ -19,7 +19,7 @@ class Users {
 	}
 
 	getUserInChatByID(uID) {
-		return this.connectedUsers.filter(foundID => foundID === uID)[0];
+		return this.connectedUsers.filter(foundUser => foundUser.uID === uID)[0];
 	}
 
 	getAllUsersInChat() {
@@ -32,7 +32,7 @@ class Users {
 	deleteUser(uID) {
 		// Replaces current "connectedUsers" list with the same one minus the disconnected user.
 		let disconnectedUser = this.getUserInChatByID(uID);
-		this.connectedUsers = this.connectedUsers.filter(foundID => foundID !== uID);
+		this.connectedUsers = this.connectedUsers.filter(foundUser => foundUser.uID !== uID);
 		return disconnectedUser;
 	}
 
