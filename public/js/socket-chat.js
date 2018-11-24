@@ -25,15 +25,9 @@ socket.on('disconnect', function() {
 
 });
 
-/*socket.emit('createMessage', {
-    usuario: 'Fernando',
-    mensaje: 'Hola Mundo'
-}, function(resp) {
-    console.log('respuesta server: ', resp);
-});*/
-
 socket.on('createMessage', function(message) {
-    console.log('BROADCAST:', message);
+	renderMessages(message, false);
+	scrollBottom();
 });
 
 socket.on('listConnectedUsers', function(signal) {

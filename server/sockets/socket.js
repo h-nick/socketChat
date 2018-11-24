@@ -27,9 +27,10 @@ io.on('connection', (client) => {
 		client.broadcast.to(disconnectedUser.rName).emit('listConnectedUsers', users.getAllUsersInRoom(disconnectedUser.rName));
 	});
 
-	client.on('createMessage', signal => {
+	client.on('createMessage', (signal, callback) => {
 		let message = createMessage(users.getUserInChatByID(client.id).uName, signal.message);
 		client.broadcast.to(users.getUserInChatByID(client.id).rName).emit('createMessage', message);
+		callback(message);
 	});
 
 	client.on('privateMessage', data => {
