@@ -14,7 +14,7 @@ var connectedUser = {
 
 socket.on('connect', function() {
 	socket.emit('chatLogin', connectedUser, function(response) {
-		console.log(response);
+		renderUsers(response);
 	});
 });
 
@@ -25,19 +25,19 @@ socket.on('disconnect', function() {
 
 });
 
-socket.emit('createMessage', {
+/*socket.emit('createMessage', {
     usuario: 'Fernando',
     mensaje: 'Hola Mundo'
 }, function(resp) {
     console.log('respuesta server: ', resp);
-});
+});*/
 
 socket.on('createMessage', function(message) {
     console.log('BROADCAST:', message);
 });
 
 socket.on('listConnectedUsers', function(signal) {
-	console.log('BROADCAST CONNECTED USERS:', signal);
+	renderUsers(signal);
 });
 
 socket.on('privateMessage', function(message) {
