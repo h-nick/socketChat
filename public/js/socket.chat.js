@@ -2,13 +2,14 @@ var socket = io();
 
 var params = new URLSearchParams(window.location.search);
 
-if(!params.has('name')) {
+if(!params.has('uName') || !params.has('rName')) {
 	window.location = 'index.html';
-	throw new Error('The name is necessary');
+	throw new Error('The name and room are necessary');
 }
 
 var connectedUser = {
-	userName: params.get('name')
+	userName: params.get('uName'),
+	roomName: params.get('rName')
 };
 
 socket.on('connect', function() {
@@ -31,10 +32,14 @@ socket.emit('createMessage', {
     console.log('respuesta server: ', resp);
 });
 
-socket.on('createMessage', function(mensaje) {
-    console.log('BROADCAST:', mensaje);
+socket.on('createMessage', function(message) {
+    console.log('BROADCAST:', message);
 });
 
 socket.on('listConnectedUsers', function(signal) {
 	console.log('BROADCAST CONNECTED USERS:', signal);
+});
+
+socket.on('privateMessage', function(message) {
+	console.log(message);
 });

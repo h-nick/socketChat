@@ -9,25 +9,31 @@ io.on('connection', (client) => {
 	client.on('chatLogin', (signalParam, callbackFn) => {
 		console.log(signalParam, ' has logged in.');
 
-		if(!signalParam.userName) return callbackFn({
+		if(!signalParam.userName || !signalParam.roomName) return callbackFn({
 			error: true,
-			message: 'The username is mandatory.'
+			message: 'The username/roomname is mandatory.'
 		});
 
-		callbackFn(users.addUserToChat(client.id, signalParam.userName));
-		client.broadcast.emit('listConnectedUsers', users.getAllUsersInChat());
+		client.join(signalParam.roomName);
+		callbackFn(users.addUserToChat(client.id, signalParam.userName, signalParam.roomName));
+		client.broadcast.to(signalParam.roomName).emit('listConnectedUsers', users.getAllUsersInRoom(signalParam.roomName));
 	});
 
 	client.on('disconnect', () => {
 		let disconnectedUser = users.deleteUser(client.id);
-		client.broadcast.emit('createMessage', createMessage(
+		client.broadcast.to(disconnectedUser.rName).emit('createMessage', createMessage(
 			'Server', `${disconnectedUser.uName} has disconnected from the chat.`)
 		);
-		client.broadcast.emit('listConnectedUsers', users.getAllUsersInChat());
+		client.broadcast.to(disconnectedUser.rName).emit('listConnectedUsers', users.getAllUsersInRoom(disconnectedUser.rName));
 	});
 
 	client.on('createMessage', signal => {
 		let message = createMessage(users.getUserInChatByID(client.id).uName, signal.message);
-		client.broadcast.emit('createMessage', message);
+		client.broadcast.to(users.getUserInChatByID(client.id).rName).emit('createMessage', message);
+	});
+
+	client.on('privateMessage', data => {
+		let sender = users.getUserInChatByID(client.id);
+		client.broadcast.to(data.receiverID).emit('privateMessage', createMessage(sender.uName, data.message));
 	});
 });

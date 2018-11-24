@@ -8,14 +8,15 @@ class Users {
 	// All functions asume uID and rID is always a valid one.
 	// Array.filter() returns undefined if nothing is ever found.
 
-	addUserToChat(uID, uName) {
+	addUserToChat(uID, uName, rName) {
 		let newUser = {
 			uID,
-			uName
+			uName,
+			rName
 		};
 
 		this.connectedUsers.push(newUser);
-		return this.connectedUsers;
+		return this.connectedUsers.filter(foundUser => foundUser.rName === rName);
 	}
 
 	getUserInChatByID(uID) {
@@ -26,7 +27,8 @@ class Users {
 		return this.connectedUsers;
 	}
 
-	getAllUsersInRoom(rID) {
+	getAllUsersInRoom(rName) {
+		return this.connectedUsers.filter(foundUser => foundUser.rName === rName);
 	}
 
 	deleteUser(uID) {
